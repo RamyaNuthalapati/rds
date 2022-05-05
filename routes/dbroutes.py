@@ -2,23 +2,21 @@ from config import app,db
 from flask import jsonify,request,abort
 from models import DbPerson
 
-@app.route("/employes")
-def getDbPeople():
+@app.route('/peoples')
+def getdbpeople():
     listp=DbPerson.query.all()
     result = [x.serialize() for x in listp]
     return jsonify(result)
 
 
-@app.route("/employes",methods=['POST'])
+@app.route('/peoples',methods=['POST'])
 def processDepartments():
     try:
         input=request.get_json()
-        eno=input['eno']
+        sno=input['sno']
         name=input['name']
         city=input['city']
-        designation=input['designation']
-        age=input['age']
-        db.session.add(DbPerson(eno,name,city,designation,age))
+        db.session.add(DbPerson(sno,name,city))
         db.session.commit()
         return {"status": "success"}, 201
     except:
